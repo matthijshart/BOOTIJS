@@ -1,9 +1,14 @@
 import mollieClient from '@mollie/api-client';
 
-const mollie = mollieClient({ apiKey: process.env.MOLLIE_API_KEY });
+const { MOLLIE_API_KEY } = process.env;
+const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
 
 export async function handler(event) {
   try {
+    if (!MOLLIE_API_KEY) {
+      return { statusCode: 500, body: 'MOLLIE_API_KEY not configured' };
+    }
+
     if (event.httpMethod !== 'POST') {
       return { statusCode: 405, body: 'Method Not Allowed' };
     }
