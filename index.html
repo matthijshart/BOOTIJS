@@ -82,6 +82,9 @@
       <label for="name">Naam</label>
       <input type="text" id="name" name="name" required>
       <span class="error" aria-live="polite"></span>
+      <label for="phone">Telefoonnummer</label>
+      <input type="tel" id="phone" name="phone" placeholder="+31..." required>
+      <span class="error" aria-live="polite"></span>
       <label for="note">Opmerking (optioneel)</label>
       <textarea id="note" name="note"></textarea>
       <span class="error" aria-live="polite"></span>
@@ -106,6 +109,7 @@ const amountEl = document.getElementById('amount');
 const dateEl = document.getElementById('date');
 const startEl = document.getElementById('start');
 const nameEl = document.getElementById('name');
+const phoneEl = document.getElementById('phone');
 const noteEl = document.getElementById('note');
 const totalEl = document.getElementById('total');
 const pickupEl = document.getElementById('pickup');
@@ -209,12 +213,23 @@ function validateName(show=true){
   return true;
 }
 
+function validatePhone(show=true){
+  const re = /^\+[1-9]\d{6,14}$/;
+  if(!re.test(phoneEl.value.trim())){
+    if(show) setError(phoneEl,'Vul een geldig internationaal nummer in.');
+    return false;
+  }
+  if(show) setError(phoneEl,'');
+  return true;
+}
+
 function validateForm(show=true){
   const validators = [
     () => validateAmount(show),
     () => validateDate(show),
     () => validateStart(show),
-    () => validateName(show)
+    () => validateName(show),
+    () => validatePhone(show)
   ];
   return validators.every(v => v());
 }
@@ -223,8 +238,9 @@ function updateButtonState(){
   const disabled = !validateForm(false);
   whatsappBtn.disabled = disabled;
   payBtn.disabled = disabled;
-  // Toon foutmelding wanneer naam ontbreekt
+  // Toon foutmelding wanneer naam of telefoon ontbreekt
   validateName();
+  validatePhone();
 }
 
 ['change','input'].forEach(ev=>{
@@ -233,11 +249,13 @@ function updateButtonState(){
   dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); validateStart(); updateButtonState(); });
   startEl.addEventListener(ev, () => { updateInfo(); validateStart(); updateButtonState(); });
   nameEl.addEventListener(ev, () => { validateName(); updateButtonState(); });
+  phoneEl.addEventListener(ev, () => { validatePhone(); updateButtonState(); });
 });
 
 function buildMessage(){
   const lines = [
     `Naam: ${nameEl.value}`,
+    `Telefoon: ${phoneEl.value}`,
     `Datum vaart: ${dateEl.value}`,
     `Starttijd: ${startEl.value}`,
     `Ophaaltijd: ${pickupEl.textContent}`,
