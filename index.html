@@ -33,6 +33,11 @@
   button:hover{background:var(--color-primary-hover)}
   .total-info{margin-top:1rem}
   .error{color:#c00;font-size:.9rem;min-height:1.2em;display:block}
+  .phone-group{display:flex;margin-top:.25rem}
+  .phone-group span{padding:.5rem;border:1px solid #ccc;border-right:none;border-radius:4px 0 0 4px;background:#eee}
+  .phone-group input{width:auto;margin-top:0}
+  #country{max-width:4rem;border-radius:0}
+  #phone{flex:1;border-radius:0 4px 4px 0;margin-left:-1px}
   @media(max-width:480px){
     .mobile-logo{display:inline-block}
     .cards{flex-direction:column;align-items:center}
@@ -82,8 +87,12 @@
       <label for="name">Naam</label>
       <input type="text" id="name" name="name" required>
       <span class="error" aria-live="polite"></span>
-      <label for="phone">Telefoonnummer</label>
-      <input type="tel" id="phone" name="phone" required pattern="0[0-9]{9}">
+      <label for="country">Telefoonnummer</label>
+      <div id="phone-group" class="phone-group">
+        <span>+</span>
+        <input type="tel" id="country" name="country" required pattern="[0-9]{1,3}" placeholder="31">
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" placeholder="612345678">
+      </div>
       <span class="error" aria-live="polite"></span>
       <label for="note">Opmerking (optioneel)</label>
       <textarea id="note" name="note"></textarea>
@@ -109,7 +118,9 @@ const amountEl = document.getElementById('amount');
 const dateEl = document.getElementById('date');
 const startEl = document.getElementById('start');
 const nameEl = document.getElementById('name');
+const countryEl = document.getElementById('country');
 const phoneEl = document.getElementById('phone');
+const phoneGroup = document.getElementById('phone-group');
 const noteEl = document.getElementById('note');
 const totalEl = document.getElementById('total');
 const pickupEl = document.getElementById('pickup');
@@ -214,12 +225,17 @@ function validateName(show=true){
 }
 
 function validatePhone(show=true){
-  const val = phoneEl.value.trim();
-  if(!/^0\d{9}$/.test(val)){
-    if(show) setError(phoneEl,'Vul een geldig telefoonnummer in (10 cijfers).');
+  const cc = countryEl.value.trim();
+  const num = phoneEl.value.trim();
+  if(!/^\d{1,3}$/.test(cc)){
+    if(show) setError(phoneGroup,'Vul een geldige landcode in.');
     return false;
   }
-  if(show) setError(phoneEl,'');
+  if(!/^\d{9}$/.test(num)){
+    if(show) setError(phoneGroup,'Vul een geldig telefoonnummer in (9 cijfers).');
+    return false;
+  }
+  if(show) setError(phoneGroup,'');
   return true;
 }
 
@@ -250,13 +266,14 @@ function updateButtonState(){
   dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); validateStart(); updateButtonState(); });
   startEl.addEventListener(ev, () => { updateInfo(); validateStart(); updateButtonState(); });
   nameEl.addEventListener(ev, () => { validateName(); updateButtonState(); });
+  countryEl.addEventListener(ev, () => { validatePhone(); updateButtonState(); });
   phoneEl.addEventListener(ev, () => { validatePhone(); updateButtonState(); });
 });
 
 function buildMessage(){
   const lines = [
     `Naam: ${nameEl.value}`,
-    `Telefoon: ${phoneEl.value}`,
+    `Telefoon: +${countryEl.value}${phoneEl.value}`,
     `Datum vaart: ${dateEl.value}`,
     `Starttijd: ${startEl.value}`,
     `Ophaaltijd: ${pickupEl.textContent}`,
@@ -296,7 +313,7 @@ payBtn.addEventListener('click', async () => {
     const res = await fetch('/.netlify/functions/create-payment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: phoneEl.value })
+      body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: `+${countryEl.value}${phoneEl.value}` })
     });
     const data = await res.json();
     if(data.checkoutUrl){
