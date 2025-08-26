@@ -26,6 +26,7 @@
   button{background:#007bff;color:#fff;border:none;cursor:pointer}
   button:hover{background:#0056b3}
   .total-info{margin-top:1rem}
+  .error{color:#c00;font-size:.9rem;min-height:1.2em;display:block}
   @media(max-width:480px){
     .cards{flex-direction:column;align-items:center}
     .card{width:100%;max-width:300px}
@@ -61,21 +62,27 @@
         <option value="10">10 kg - €17,50</option>
         <option value="20">20 kg - €25,00</option>
       </select>
+      <span class="error" aria-live="polite"></span>
       <label for="amount">Aantal</label>
       <input type="number" id="amount" name="amount" min="1" value="1">
+      <span class="error" aria-live="polite"></span>
       <label for="date">Datum vaart</label>
       <input type="date" id="date" name="date">
+      <span class="error" aria-live="polite"></span>
       <label for="start">Starttijd vaart</label>
-      <input type="time" id="start" name="start" required>
+      <input type="time" id="start" name="start" required min="00:00">
+      <span class="error" aria-live="polite"></span>
       <label for="name">Naam</label>
-      <input type="text" id="name" name="name">
+      <input type="text" id="name" name="name" required>
+      <span class="error" aria-live="polite"></span>
       <label for="note">Opmerking (optioneel)</label>
       <textarea id="note" name="note"></textarea>
+      <span class="error" aria-live="polite"></span>
       <div class="total-info">
         <p>Totaal: <span id="total" aria-live="polite">€0,00</span></p>
         <p>Ophaaltijd: <span id="pickup" aria-live="polite">--:--</span></p>
       </div>
-      <button type="button" id="whatsapp">Bestel via WhatsApp</button>
+      <button type="button" id="whatsapp" disabled>Bestel via WhatsApp</button>
     </form>
   </section>
 </main>
@@ -95,6 +102,7 @@ const noteEl = document.getElementById('note');
 const totalEl = document.getElementById('total');
 const pickupEl = document.getElementById('pickup');
 const appLink = document.getElementById('app-link');
+const whatsappBtn = document.getElementById('whatsapp');
 
 appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -102,7 +110,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
 (function setToday(){
   const t = new Date();
   t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
-  dateEl.value = t.toISOString().slice(0,10);
+  const today = t.toISOString().slice(0,10);
+  dateEl.value = today;
+  dateEl.min = today;
 })();
 
 function updateInfo(){
@@ -123,11 +133,71 @@ function updateInfo(){
   }
 }
 
+function setError(el,msg){
+  el.nextElementSibling.textContent = msg;
+}
+
+function validateAmount(show=true){
+  const val = parseInt(amountEl.value,10);
+  if(isNaN(val) || val < 1){
+    if(show) setError(amountEl,'Minimaal 1.');
+    return false;
+  }
+  if(show) setError(amountEl,'');
+  return true;
+}
+
+function validateDate(show=true){
+  if(!dateEl.value){
+    if(show) setError(dateEl,'Datum is verplicht.');
+    return false;
+  }
+  if(dateEl.min && dateEl.value < dateEl.min){
+    if(show) setError(dateEl,'Datum kan niet in het verleden liggen.');
+    return false;
+  }
+  if(show) setError(dateEl,'');
+  return true;
+}
+
+function validateStart(show=true){
+  if(!startEl.value){
+    if(show) setError(startEl,'Starttijd is verplicht.');
+    return false;
+  }
+  if(show) setError(startEl,'');
+  return true;
+}
+
+function validateName(show=true){
+  if(!nameEl.value.trim()){
+    if(show) setError(nameEl,'Naam is verplicht.');
+    return false;
+  }
+  if(show) setError(nameEl,'');
+  return true;
+}
+
+function validateForm(show=true){
+  const validators = [
+    () => validateAmount(show),
+    () => validateDate(show),
+    () => validateStart(show),
+    () => validateName(show)
+  ];
+  return validators.every(v => v());
+}
+
+function updateButtonState(){
+  whatsappBtn.disabled = !validateForm(false);
+}
+
 ['change','input'].forEach(ev=>{
-  productEl.addEventListener(ev, updateInfo);
-  amountEl.addEventListener(ev, updateInfo);
-  dateEl.addEventListener(ev, updateInfo);
-  startEl.addEventListener(ev, updateInfo);
+  productEl.addEventListener(ev, () => { updateInfo(); updateButtonState(); });
+  amountEl.addEventListener(ev, () => { updateInfo(); validateAmount(); updateButtonState(); });
+  dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); updateButtonState(); });
+  startEl.addEventListener(ev, () => { updateInfo(); validateStart(); updateButtonState(); });
+  nameEl.addEventListener(ev, () => { validateName(); updateButtonState(); });
 });
 
 function buildMessage(){
@@ -146,8 +216,12 @@ function buildMessage(){
   return lines.join('\n');
 }
 
-document.getElementById('whatsapp').addEventListener('click', () => {
-  if(!startEl.value){ startEl.focus(); return; }
+whatsappBtn.addEventListener('click', () => {
+  if(!validateForm()){
+    const firstErr = document.querySelector('.error:not(:empty)');
+    if(firstErr) firstErr.previousElementSibling.focus();
+    return;
+  }
   const msg = buildMessage();
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
@@ -160,11 +234,14 @@ document.querySelectorAll('.quick').forEach(btn => {
     n.setMinutes(n.getMinutes() + 45);
     startEl.value = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
     updateInfo();
+    validateStart();
+    updateButtonState();
     document.getElementById('order-form').scrollIntoView({behavior:'smooth'});
   });
 });
 
 updateInfo();
+updateButtonState();
 </script>
 </body>
 </html>
