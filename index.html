@@ -102,6 +102,10 @@
       </div>
       <button type="button" id="whatsapp" disabled>Bestel via WhatsApp</button>
       <button type="button" id="pay" disabled>Betaal (test) met Mollie</button>
+      <div id="payment-result" style="display:none;text-align:center;margin-top:1rem;">
+        <p>Scan de QR-code of <a id="payment-link" target="_blank" rel="noopener">klik hier om te betalen</a>.</p>
+        <img id="payment-qr" alt="iDEAL QR-code" style="max-width:200px;" />
+      </div>
     </form>
   </section>
 </main>
@@ -127,6 +131,9 @@ const appLink = document.getElementById('app-link');
 const whatsappBtn = document.getElementById('whatsapp');
 const payBtn = document.getElementById('pay');
 const orderForm = document.getElementById('order-form');
+const paymentResult = document.getElementById('payment-result');
+const paymentLink = document.getElementById('payment-link');
+const paymentQr = document.getElementById('payment-qr');
 
 appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -315,7 +322,11 @@ payBtn.addEventListener('click', async () => {
       body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: `+${countryEl.value}${phoneEl.value}` })
     });
     const data = await res.json();
-    if(data.checkoutUrl){
+    if(data.qrCode && data.checkoutUrl){
+      paymentLink.href = data.checkoutUrl;
+      paymentQr.src = data.qrCode;
+      paymentResult.style.display = 'block';
+    }else if(data.checkoutUrl){
       window.location.href = data.checkoutUrl;
     }else{
       alert('Betaling kon niet worden gestart.');
