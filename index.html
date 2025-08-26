@@ -110,17 +110,19 @@ const totalEl = document.getElementById('total');
 const pickupEl = document.getElementById('pickup');
 const appLink = document.getElementById('app-link');
 const whatsappBtn = document.getElementById('whatsapp');
+const orderForm = document.getElementById('order-form');
 
 appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
 document.getElementById('year').textContent = new Date().getFullYear();
 
-(function setToday(){
+function setToday(){
   const t = new Date();
   t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
   const today = t.toISOString().slice(0,10);
   dateEl.value = today;
   dateEl.min = today;
-})();
+}
+setToday();
 
 function updateInfo(){
   const prod = productEl.value;
@@ -232,6 +234,10 @@ whatsappBtn.addEventListener('click', () => {
   const msg = buildMessage();
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
+  orderForm.reset();
+  setToday();
+  updateInfo();
+  updateButtonState();
 });
 
 document.querySelectorAll('.quick').forEach(btn => {
