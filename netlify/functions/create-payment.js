@@ -1,6 +1,10 @@
 import mollieClient from '@mollie/api-client';
 
-const { MOLLIE_API_KEY, URL = 'http://localhost:8888' } = process.env;
+const {
+  MOLLIE_API_KEY,
+  URL = 'http://localhost:8888',
+  WEBHOOK_URL
+} = process.env;
 const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
 
 export async function handler(event) {
@@ -21,7 +25,8 @@ export async function handler(event) {
     const paymentData = {
       amount: { currency: 'EUR', value: Number(amount).toFixed(2) },
       description: description || 'BOOTIJS bestelling',
-      redirectUrl: `${URL}/bedankt.html`
+      redirectUrl: `${URL}/bedankt.html`,
+      webhookUrl: WEBHOOK_URL || `${URL}/.netlify/functions/payment-webhook`
     };
     if (phone) {
       paymentData.metadata = { phone };
