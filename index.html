@@ -129,12 +129,16 @@ function updateInfo(){
   const price = prices[prod] * amt;
   totalEl.textContent = formatter.format(price);
   if(startEl.value){
-    const [h,m] = startEl.value.split(':').map(Number);
     const d = new Date(dateEl.value + 'T' + startEl.value);
     d.setMinutes(d.getMinutes() - 10);
     const ph = String(d.getHours()).padStart(2,'0');
     const pm = String(d.getMinutes()).padStart(2,'0');
-    pickupEl.textContent = `${ph}:${pm}`;
+    const pd = d.toISOString().slice(0,10);
+    if(pd !== dateEl.value){
+      pickupEl.textContent = `${pd} ${ph}:${pm}`;
+    }else{
+      pickupEl.textContent = `${ph}:${pm}`;
+    }
   }else{
     pickupEl.textContent = '--:--';
   }
@@ -246,7 +250,10 @@ document.querySelectorAll('.quick').forEach(btn => {
   btn.addEventListener('click', () => {
     productEl.value = btn.dataset.kg;
     const n = new Date();
+    const today = n.toISOString().slice(0,10);
     n.setMinutes(n.getMinutes() + 45);
+    const newDay = n.toISOString().slice(0,10);
+    if(newDay !== today) dateEl.value = newDay;
     startEl.value = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
     updateInfo();
     validateStart();
