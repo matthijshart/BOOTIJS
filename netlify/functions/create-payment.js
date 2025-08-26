@@ -7,19 +7,27 @@ const {
 } = process.env;
 const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
 
+function jsonError(statusCode, message) {
+  return {
+    statusCode,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ error: message })
+  };
+}
+
 export async function handler(event) {
   try {
     if (!MOLLIE_API_KEY) {
-      return { statusCode: 500, body: 'MOLLIE_API_KEY not configured' };
+      return jsonError(500, 'MOLLIE_API_KEY not configured');
     }
 
     if (event.httpMethod !== 'POST') {
-      return { statusCode: 405, body: 'Method Not Allowed' };
+      return jsonError(405, 'Method Not Allowed');
     }
 
     const { amount, description, phone } = JSON.parse(event.body || '{}');
     if (!amount || isNaN(Number(amount))) {
-      return { statusCode: 400, body: 'Invalid amount' };
+      return jsonError(400, 'Invalid amount');
     }
 
     const paymentData = {
@@ -47,6 +55,6 @@ export async function handler(event) {
       })
     };
   } catch (err) {
-    return { statusCode: 500, body: `Error: ${err.message}` };
+    return jsonError(500, `Error: ${err.message}`);
   }
 }
