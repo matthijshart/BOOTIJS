@@ -172,6 +172,14 @@ function validateStart(show=true){
     if(show) setError(startEl,'Starttijd is verplicht.');
     return false;
   }
+  if(dateEl.value){
+    const selected = new Date(dateEl.value + 'T' + startEl.value);
+    const now = new Date();
+    if(selected < now){
+      if(show) setError(startEl,'Starttijd kan niet in het verleden liggen.');
+      return false;
+    }
+  }
   if(show) setError(startEl,'');
   return true;
 }
@@ -202,7 +210,7 @@ function updateButtonState(){
 ['change','input'].forEach(ev=>{
   productEl.addEventListener(ev, () => { updateInfo(); updateButtonState(); });
   amountEl.addEventListener(ev, () => { updateInfo(); validateAmount(); updateButtonState(); });
-  dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); updateButtonState(); });
+  dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); validateStart(); updateButtonState(); });
   startEl.addEventListener(ev, () => { updateInfo(); validateStart(); updateButtonState(); });
   nameEl.addEventListener(ev, () => { validateName(); updateButtonState(); });
 });
