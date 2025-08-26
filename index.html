@@ -126,9 +126,17 @@ setToday();
 
 function updateInfo(){
   const prod = productEl.value;
-  const amt = Math.max(1, parseInt(amountEl.value)||1);
-  amountEl.value = amt;
-  const price = prices[prod] * amt;
+  const raw = amountEl.value;
+  let price = 0;
+
+  if(raw !== ''){
+    let amt = parseInt(raw,10);
+    if(isNaN(amt) || amt < 1){
+      amt = 1;
+      amountEl.value = 1;
+    }
+    price = prices[prod] * amt;
+  }
   totalEl.textContent = formatter.format(price);
   if(startEl.value){
     const d = new Date(dateEl.value + 'T' + startEl.value);
