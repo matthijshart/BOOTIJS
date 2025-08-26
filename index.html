@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IJskoud Amsterdam</title>
+<meta name="description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<meta property="og:title" content="IJskoud Amsterdam">
+<meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5}
+  header,footer{background:#fff;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+  header h1{margin:0;font-size:1.5rem;display:flex;align-items:center}
+  .badge{background:#eee;padding:.2rem .5rem;border-radius:4px;font-size:.8rem;margin-left:.5rem}
+  main{padding:1rem}
+  .hero{text-align:center}
+  .cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
+  .card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);width:150px}
+  .card h3{margin-top:0}
+  .card button{margin-top:.5rem}
+  .route-btn{display:inline-block;margin-top:1rem;color:#007bff}
+  .form-card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:400px;margin:0 auto}
+  label{display:block;margin-top:.5rem}
+  input,select,textarea,button{width:100%;padding:.5rem;margin-top:.25rem;border:1px solid #ccc;border-radius:4px;font-size:1rem}
+  button{background:#007bff;color:#fff;border:none;cursor:pointer}
+  button:hover{background:#0056b3}
+  .total-info{margin-top:1rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>IJskoud Amsterdam <span class="badge">Test-run · Betaal bij afhalen</span></h1>
+</header>
+<main>
+  <section class="hero">
+    <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Café Hesp.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>10 kg</h3>
+        <p>€17,50</p>
+        <button class="quick" data-kg="10">Snel bestellen</button>
+      </div>
+      <div class="card">
+        <h3>20 kg</h3>
+        <p>€25,00</p>
+        <button class="quick" data-kg="20">Snel bestellen</button>
+      </div>
+    </div>
+    <a class="route-btn" href="https://maps.app.goo.gl/NfQ8Ymz3nHa5q8qv6" target="_blank" rel="noopener">Route naar Café Hesp</a>
+  </section>
+  <section id="order">
+    <form id="order-form" class="form-card">
+      <h2>Bestellen</h2>
+      <label for="product">Product</label>
+      <select id="product" name="product">
+        <option value="10">10 kg - €17,50</option>
+        <option value="20">20 kg - €25,00</option>
+      </select>
+      <label for="amount">Aantal</label>
+      <input type="number" id="amount" name="amount" min="1" value="1">
+      <label for="date">Datum vaart</label>
+      <input type="date" id="date" name="date">
+      <label for="start">Starttijd vaart</label>
+      <input type="time" id="start" name="start" required>
+      <label for="name">Naam</label>
+      <input type="text" id="name" name="name">
+      <label for="note">Opmerking (optioneel)</label>
+      <textarea id="note" name="note"></textarea>
+      <div class="total-info">
+        <p>Totaal: <span id="total" aria-live="polite">€0,00</span></p>
+        <p>Ophaaltijd: <span id="pickup" aria-live="polite">--:--</span></p>
+      </div>
+      <button type="button" id="whatsapp">Bestel via WhatsApp</button>
+    </form>
+  </section>
+</main>
+<footer>
+  <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://maps.app.goo.gl/NfQ8Ymz3nHa5q8qv6" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
+</footer>
+<script>
+const WHATSAPP_NUMBER = '31600000000'; // TODO: vervang door jouw nummer (zonder +)
+const prices = { '10': 17.50, '20': 25.00 };
+const formatter = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
+const productEl = document.getElementById('product');
+const amountEl = document.getElementById('amount');
+const dateEl = document.getElementById('date');
+const startEl = document.getElementById('start');
+const nameEl = document.getElementById('name');
+const noteEl = document.getElementById('note');
+const totalEl = document.getElementById('total');
+const pickupEl = document.getElementById('pickup');
+const appLink = document.getElementById('app-link');
 
+appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+document.getElementById('year').textContent = new Date().getFullYear();
+
+(function setToday(){
+  const t = new Date();
+  t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
+  dateEl.value = t.toISOString().slice(0,10);
+})();
+
+function updateInfo(){
+  const prod = productEl.value;
+  const amt = Math.max(1, parseInt(amountEl.value)||1);
+  amountEl.value = amt;
+  const price = prices[prod] * amt;
+  totalEl.textContent = formatter.format(price);
+  if(startEl.value){
+    const [h,m] = startEl.value.split(':').map(Number);
+    const d = new Date(dateEl.value + 'T' + startEl.value);
+    d.setMinutes(d.getMinutes() - 10);
+    const ph = String(d.getHours()).padStart(2,'0');
+    const pm = String(d.getMinutes()).padStart(2,'0');
+    pickupEl.textContent = `${ph}:${pm}`;
+  }else{
+    pickupEl.textContent = '--:--';
+  }
+}
+
+['change','input'].forEach(ev=>{
+  productEl.addEventListener(ev, updateInfo);
+  amountEl.addEventListener(ev, updateInfo);
+  dateEl.addEventListener(ev, updateInfo);
+  startEl.addEventListener(ev, updateInfo);
+});
+
+function buildMessage(){
+  const lines = [
+    `Naam: ${nameEl.value}`,
+    `Datum vaart: ${dateEl.value}`,
+    `Starttijd: ${startEl.value}`,
+    `Ophaaltijd: ${pickupEl.textContent}`,
+    `Product: ${productEl.value} kg`,
+    `Aantal: ${amountEl.value}`,
+    `Totaal: ${totalEl.textContent}`,
+    'Locatie: Café Hesp (om de hoek bij de steiger)'
+  ];
+  if(noteEl.value.trim()) lines.push(`Opmerking: ${noteEl.value.trim()}`);
+  lines.push('Betaal bij afhalen (contant of Tikkie).');
+  return lines.join('\n');
+}
+
+document.getElementById('whatsapp').addEventListener('click', () => {
+  if(!startEl.value){ startEl.focus(); return; }
+  const msg = buildMessage();
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+});
+
+document.querySelectorAll('.quick').forEach(btn => {
+  btn.addEventListener('click', () => {
+    productEl.value = btn.dataset.kg;
+    const n = new Date();
+    n.setMinutes(n.getMinutes() + 45);
+    startEl.value = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
+    updateInfo();
+    document.getElementById('order-form').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+updateInfo();
+</script>
+</body>
+</html>
