@@ -1,6 +1,6 @@
 import mollieClient from '@mollie/api-client';
 
-const { MOLLIE_API_KEY } = process.env;
+const { MOLLIE_API_KEY, URL = 'http://localhost:8888' } = process.env;
 const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
 
 export async function handler(event) {
@@ -21,7 +21,7 @@ export async function handler(event) {
     const payment = await mollie.payments.create({
       amount: { currency: 'EUR', value: Number(amount).toFixed(2) },
       description: description || 'BOOTIJS bestelling',
-      redirectUrl: 'https://matthijshart.github.io/BOOTIJS/bedankt.html'
+      redirectUrl: `${URL}/bedankt.html`
     });
 
     return {
