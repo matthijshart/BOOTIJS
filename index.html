@@ -200,7 +200,7 @@ function validateStart(show=true){
 
 function validateName(show=true){
   if(!nameEl.value.trim()){
-    if(show) setError(nameEl,'Naam is verplicht.');
+    if(show) setError(nameEl,'Vul aub een naam in.');
     return false;
   }
   if(show) setError(nameEl,'');
@@ -219,6 +219,8 @@ function validateForm(show=true){
 
 function updateButtonState(){
   whatsappBtn.disabled = !validateForm(false);
+  // Toon foutmelding wanneer naam ontbreekt
+  validateName();
 }
 
 ['change','input'].forEach(ev=>{
