@@ -26,6 +26,10 @@
   button{background:#007bff;color:#fff;border:none;cursor:pointer}
   button:hover{background:#0056b3}
   .total-info{margin-top:1rem}
+  @media(max-width:480px){
+    .cards{flex-direction:column;align-items:center}
+    .card{width:100%;max-width:300px}
+  }
 </style>
 </head>
 <body>
@@ -47,7 +51,7 @@
         <button class="quick" data-kg="20">Snel bestellen</button>
       </div>
     </div>
-    <a class="route-btn" href="https://maps.app.goo.gl/NfQ8Ymz3nHa5q8qv6" target="_blank" rel="noopener">Route naar Café Hesp</a>
+    <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Route naar Café Hesp</a>
   </section>
   <section id="order">
     <form id="order-form" class="form-card">
@@ -76,7 +80,7 @@
   </section>
 </main>
 <footer>
-  <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://maps.app.goo.gl/NfQ8Ymz3nHa5q8qv6" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
+  <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
 </footer>
 <script>
 const WHATSAPP_NUMBER = '31624978211'; // TODO: vervang door jouw nummer (zonder +)
