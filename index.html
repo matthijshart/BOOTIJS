@@ -91,8 +91,8 @@
         <p>Totaal: <span id="total" aria-live="polite">€0,00</span></p>
         <p>Ophaaltijd: <span id="pickup" aria-live="polite">--:--</span></p>
       </div>
-      <button type="button" id="whatsapp" disabled>Bestel via WhatsApp</button>
-      <button type="button" id="pay" disabled>Betaal (test) met Mollie</button>
+        <button type="button" id="whatsapp" disabled>Bestel via WhatsApp</button>
+        <button type="button" id="pay" disabled>Betaal (test) met iDEAL</button>
       <div id="payment-result" style="display:none;text-align:center;margin-top:1rem;">
         <p>Scan de QR-code of <a id="payment-link" target="_blank" rel="noopener">klik hier om te betalen</a>.</p>
         <img id="payment-qr" alt="iDEAL QR-code" style="max-width:200px;" />
@@ -298,26 +298,33 @@ payBtn.addEventListener('click', async () => {
     return;
   }
   const amount = (prices[productEl.value] * parseInt(amountEl.value,10)).toFixed(2);
-  try{
-    const res = await fetch('/.netlify/functions/create-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: phoneEl.value })
-    });
-    const data = await res.json();
-    if(data.qrCode && data.checkoutUrl){
-      paymentLink.href = data.checkoutUrl;
-      paymentQr.src = data.qrCode;
-      paymentResult.style.display = 'block';
-    }else if(data.checkoutUrl){
-      window.location.href = data.checkoutUrl;
-    }else{
-      alert('Betaling kon niet worden gestart.');
+    try{
+      const res = await fetch('/.netlify/functions/create-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: phoneEl.value })
+      });
+      let data = {};
+      try{
+        data = await res.json();
+      }catch{}
+      if(!res.ok){
+        alert(data.error || 'Betaling kon niet worden gestart.');
+        return;
+      }
+      if(data.qrCode && data.checkoutUrl){
+        paymentLink.href = data.checkoutUrl;
+        paymentQr.src = data.qrCode;
+        paymentResult.style.display = 'block';
+      }else if(data.checkoutUrl){
+        window.location.href = data.checkoutUrl;
+      }else{
+        alert('Betaling kon niet worden gestart.');
+      }
+    }catch(err){
+      alert('Fout bij starten betaling.');
     }
-  }catch(err){
-    alert('Fout bij starten betaling.');
-  }
-});
+  });
 
 document.querySelectorAll('.quick').forEach(btn => {
   btn.addEventListener('click', () => {
