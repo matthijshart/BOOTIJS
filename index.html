@@ -46,12 +46,12 @@
     <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Café Hesp.</p>
     <div class="cards">
       <div class="card">
-        <h3>10 kg</h3>
+        <h3>10 kg + gratis koelbox</h3>
         <p>€17,50</p>
         <button class="quick" data-kg="10">Snel bestellen</button>
       </div>
       <div class="card">
-        <h3>20 kg</h3>
+        <h3>20 kg + gratis koelbox</h3>
         <p>€25,00</p>
         <button class="quick" data-kg="20">Snel bestellen</button>
       </div>
@@ -63,8 +63,8 @@
       <h2>Bestellen</h2>
       <label for="product">Product</label>
       <select id="product" name="product">
-        <option value="10">10 kg - €17,50</option>
-        <option value="20">20 kg - €25,00</option>
+        <option value="10">10 kg + gratis koelbox - €17,50</option>
+        <option value="20">20 kg + gratis koelbox - €25,00</option>
       </select>
       <span class="error" aria-live="polite"></span>
       <label for="amount">Aantal</label>
@@ -210,7 +210,7 @@ function buildMessage(){
     `Datum vaart: ${dateEl.value}`,
     `Starttijd: ${startEl.value}`,
     `Ophaaltijd: ${pickupEl.textContent}`,
-    `Product: ${productEl.value} kg`,
+    `Product: ${productEl.value} kg + gratis koelbox`,
     `Aantal: ${amountEl.value}`,
     `Totaal: ${totalEl.textContent}`,
     'Locatie: Café Hesp (om de hoek bij de steiger)'
