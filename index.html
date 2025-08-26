@@ -9,6 +9,10 @@
 <meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
 <style>
+  :root{
+    --color-primary:#007bff;
+    --color-primary-hover:#0056b3;
+  }
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5}
   header,footer{background:#fff;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
   header h1{margin:0;font-size:1.5rem;display:flex;align-items:center}
@@ -19,12 +23,12 @@
   .card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);width:150px}
   .card h3{margin-top:0}
   .card button{margin-top:.5rem}
-  .route-btn{display:inline-block;margin-top:1rem;color:#007bff}
+  .route-btn{display:inline-block;margin-top:1rem;color:var(--color-primary)}
   .form-card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:400px;margin:0 auto}
   label{display:block;margin-top:.5rem}
   input,select,textarea,button{width:100%;padding:.5rem;margin-top:.25rem;border:1px solid #ccc;border-radius:4px;font-size:1rem}
-  button{background:#007bff;color:#fff;border:none;cursor:pointer}
-  button:hover{background:#0056b3}
+  button{background:var(--color-primary);color:#fff;border:none;cursor:pointer}
+  button:hover{background:var(--color-primary-hover)}
   .total-info{margin-top:1rem}
   @media(max-width:480px){
     .cards{flex-direction:column;align-items:center}
