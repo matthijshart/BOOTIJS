@@ -13,16 +13,21 @@ export async function handler(event) {
       return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
-    const { amount, description } = JSON.parse(event.body || '{}');
+    const { amount, description, phone } = JSON.parse(event.body || '{}');
     if (!amount || isNaN(Number(amount))) {
       return { statusCode: 400, body: 'Invalid amount' };
     }
 
-    const payment = await mollie.payments.create({
+    const paymentData = {
       amount: { currency: 'EUR', value: Number(amount).toFixed(2) },
       description: description || 'BOOTIJS bestelling',
       redirectUrl: `${URL}/bedankt.html`
-    });
+    };
+    if (phone) {
+      paymentData.metadata = { phone };
+    }
+
+    const payment = await mollie.payments.create(paymentData);
 
     return {
       statusCode: 200,
