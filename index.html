@@ -223,7 +223,8 @@ function updateButtonState(){
   const disabled = !validateForm(false);
   whatsappBtn.disabled = disabled;
   payBtn.disabled = disabled;
-  // Toon foutmelding wanneer naam ontbreekt
+  // Toon foutmeldingen wanneer verplichte velden ontbreken
+  validateStart();
   validateName();
 }
 
