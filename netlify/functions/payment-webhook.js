@@ -59,23 +59,23 @@ export async function handler(event) {
     const phone = payment.metadata && payment.metadata.phone;
     if (phone) {
       if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_WHATSAPP_FROM) {
-        return { statusCode: 500, body: 'Twilio credentials not configured' };
-      }
+        console.warn('Twilio credentials not configured; skipping WhatsApp notification');
+      } else {
+        const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-      const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const amount = payment.amount?.value;
+        const description = payment.description;
+        const order = payment.metadata?.orderId ? `\nBestelling: ${payment.metadata.orderId}` : '';
 
-      const amount = payment.amount?.value;
-      const description = payment.description;
-      const order = payment.metadata?.orderId ? `\nBestelling: ${payment.metadata.orderId}` : '';
-
-      try {
-        await twilioClient.messages.create({
-          from: `whatsapp:${TWILIO_WHATSAPP_FROM}`,
-          to: `whatsapp:${phone}`,
-          body: `✅ Betaling ontvangen!\n\nOmschrijving: ${description}\nBedrag: €${amount}${order}\n\n❄️🍦 Tot snel!`
-        });
-      } catch (err) {
-        return { statusCode: 502, body: `Twilio API error: ${err.message}` };
+        try {
+          await twilioClient.messages.create({
+            from: `whatsapp:${TWILIO_WHATSAPP_FROM}`,
+            to: `whatsapp:${phone}`,
+            body: `✅ Betaling ontvangen!\n\nOmschrijving: ${description}\nBedrag: €${amount}${order}\n\n❄️🍦 Tot snel!`
+          });
+        } catch (err) {
+          console.error('Twilio API error:', err.message);
+        }
       }
     }
 
