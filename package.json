@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@mollie/api-client": "4.3.3",
-    "twilio": "^4.0.0"
+    "@mollie/api-client": "4.3.3"
   }
 }
