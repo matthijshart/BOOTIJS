@@ -1,6 +1,9 @@
 [build]
   command = ""
   publish = "."
+[build.environment]
+  # Signing key voor Mollie webhook signature verificatie
+  MOLLIE_SIGNING_KEY = ""
 
 [functions]
   node_bundler = "esbuild"
