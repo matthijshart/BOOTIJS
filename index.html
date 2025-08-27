@@ -44,6 +44,8 @@
   <h1>IJskoud Amsterdam <img src="ChatGPT Image 26 aug 2025, 18_33_04.png" alt="BootIJS logo" class="mobile-logo"> <span class="badge">Test-run · Betaal bij afhalen</span></h1>
 </header>
 <main>
+  <button onclick="bestel(3.50, 'BOOTIJS bestelling')">Bestel 3,50</button>
+  <pre id="out"></pre>
   <section class="hero">
     <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Café Hesp.</p>
     <div class="cards">
@@ -373,6 +375,21 @@ document.querySelectorAll('.quick').forEach(btn => {
 loadCountryCodes();
 updateInfo();
 updateButtonState();
+</script>
+<script>
+  async function bestel(amount, description) {
+    const r = await fetch("/.netlify/functions/create-payment", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ amount, description })
+    });
+    const data = await r.json();
+    document.getElementById("out").textContent = JSON.stringify(data,null,2);
+
+    if (data.checkoutUrl) {
+      window.location = data.checkoutUrl; // Stuur direct naar Mollie
+    }
+  }
 </script>
 </body>
 </html>
