@@ -50,13 +50,33 @@
     a:hover {
       background: #008bbf;
     }
+    .code {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #222;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      border: 2px dashed #00aeef;
+      display: inline-block;
+      background: #f9f9f9;
+    }
   </style>
 </head>
 <body>
   <div class="emoji">❄️👋</div>
   <h1>Bedankt! Je ijs ligt ijskoud klaar.</h1>
   <p>We zien je zo bij Café Hesp. 🚤</p>
+  <p>Gebruik deze code bij het afhalen:</p>
+  <div class="code" id="order-code">--</div>
   <a href="./">Terug naar de site</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('order');
+    if (orderId) {
+      document.getElementById('order-code').textContent = orderId;
+    }
+  </script>
 </body>
 </html>
 
