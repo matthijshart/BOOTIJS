@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>Testbetaling</title></head>
+  <body>
+    <button onclick="go()">Testbetaling €3,50</button>
+    <pre id="out"></pre>
+
+    <script>
+      async function go(){
+        const r = await fetch("/.netlify/functions/create-payment", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ amount: 3.50, description: "BOOTIJS – test" })
+        });
+        const data = await r.json();
+        document.getElementById("out").textContent = JSON.stringify(data,null,2);
+
+        if (data.checkoutUrl) {
+          // Stuur de klant direct door naar Mollie’s test checkout
+          window.location = data.checkoutUrl;
+        }
+      }
+    </script>
+  </body>
+</html>
