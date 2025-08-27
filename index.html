@@ -76,10 +76,10 @@
       <input type="date" id="date" name="date" required>
       <span class="error" aria-live="polite"></span>
       <label for="start">Starttijd vaart</label>
-      <input type="time" id="start" name="start" required min="00:00">
+      <input type="time" id="start" name="start" required min="00:00" placeholder="19:30">
       <span class="error" aria-live="polite"></span>
       <label for="name">Naam</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" required placeholder="Voor- en achternaam">
       <span class="error" aria-live="polite"></span>
       <label for="phone">Telefoonnummer</label>
       <input type="tel" id="phone" name="phone" required pattern="\+[0-9]{10,13}" placeholder="+31612345678">
@@ -245,6 +245,8 @@ function updateButtonState(){
   whatsappBtn.disabled = disabled;
   payBtn.disabled = disabled;
   // Toon foutmeldingen wanneer verplichte velden ontbreken
+  validateAmount();
+  validateDate();
   validateStart();
   validateName();
   validatePhone();
