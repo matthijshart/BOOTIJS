@@ -6,7 +6,7 @@ Deze project gebruikt Netlify Functions om Mollie-betalingen te verwerken en Wha
 
 Zorg ervoor dat de volgende variabelen zijn ingesteld in Netlify of in een lokale `.env`:
 
-- `MOLLIE_API_KEY`
+- `MOLLIE_API`
 - `MOLLIE_SIGNING_KEY`
 - `TWILIO_ACCOUNT_SID`
 - `TWILIO_AUTH_TOKEN`
