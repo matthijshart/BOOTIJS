@@ -1,8 +1,7 @@
-// Netlify Function met Mollie client (CJS-variant)
-const mollieClient = require('@mollie/api-client');
+const { createMollieClient } = require('@mollie/api-client');
 
 const { MOLLIE_API_KEY } = process.env;
-const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
+const mollie = createMollieClient({ apiKey: MOLLIE_API_KEY });
 
 exports.handler = async (event) => {
   try {
