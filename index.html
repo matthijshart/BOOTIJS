@@ -130,17 +130,9 @@ const paymentQr = document.getElementById('payment-qr');
 
 async function loadCountryCodes(){
   try{
-    const res = await fetch('https://restcountries.com/v3.1/all');
-    const data = await res.json();
-    const codes = [];
-    for(const c of data){
-      if(c.idd && c.idd.root){
-        const root = c.idd.root;
-        const suffixes = c.idd.suffixes && c.idd.suffixes.length ? c.idd.suffixes : [''];
-        suffixes.forEach(s => codes.push({ name: c.name.common, dial: root + s }));
-      }
-    }
-    codes.sort((a,b) => a.name.localeCompare(b.name));
+    const res = await fetch('data/country-codes.json');
+    if(!res.ok) throw new Error('Failed to load country codes');
+    const codes = await res.json();
     codes.forEach(({name,dial}) => {
       const opt = document.createElement('option');
       opt.value = dial;
