@@ -55,6 +55,21 @@
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     font-style:italic;
   }
+  .sticky-order{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:var(--color-primary);
+    color:#fff;
+    font-size:1.25rem;
+    padding:1rem;
+    z-index:999;
+    display:none;
+  }
+  @media(max-width:768px){
+    .sticky-order{display:block;}
+  }
 </style>
 </head>
 <body>
@@ -141,6 +156,7 @@
 <footer>
   <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
 </footer>
+<button class="sticky-order">Bestel nu ❄️</button>
 <script>
 const WHATSAPP_NUMBER = '31624978211'; // TODO: vervang door jouw nummer (zonder +)
 const prices = { '10': 17.50, '20': 25.00 };
@@ -411,6 +427,13 @@ document.querySelectorAll('.quick').forEach(btn => {
     document.getElementById('order-form').scrollIntoView({behavior:'smooth'});
   });
 });
+
+const stickyOrderBtn = document.querySelector('.sticky-order');
+if(stickyOrderBtn){
+  stickyOrderBtn.addEventListener('click', () => {
+    document.getElementById('order-form').scrollIntoView({behavior:'smooth'});
+  });
+}
 
 loadCountryCodes();
 updateInfo();
