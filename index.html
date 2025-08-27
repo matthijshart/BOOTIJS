@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IJskoud Amsterdam</title>
 <meta name="description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
 <meta property="og:title" content="IJskoud Amsterdam">
@@ -10,43 +10,46 @@
 <meta property="og:image" content="images/bootijs_kruizen_iceblue.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
 <style>
-  :root{
-    --color-primary:#00aeef;
-    --color-primary-hover:#008bbf;
-  }
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5}
-  header,footer{background:#fff;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-  header h1{margin:0;font-size:1.5rem;display:flex;align-items:center}
-  .mobile-logo{display:inline-block;height:6rem;margin-left:.5rem}
-  .badge{background:#eee;padding:.2rem .5rem;border-radius:4px;font-size:.8rem;margin-left:.5rem}
-  main{padding:1rem}
-  .hero{text-align:center}
-  .cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
-  .card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);width:150px}
-  .card h3{margin-top:0}
-  .card button{margin-top:.5rem}
-  .route-btn{display:inline-block;margin-top:1rem;color:var(--color-primary)}
-  .form-card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:400px;margin:0 auto}
-  label{display:block;margin-top:.5rem}
-  input,select,textarea,button{width:100%;padding:.5rem;margin-top:.25rem;border:1px solid #ccc;border-radius:4px;font-size:1rem}
-  button{background:var(--color-primary);color:#fff;border:none;cursor:pointer}
-  button:hover{background:var(--color-primary-hover)}
-  .total-info{margin-top:1rem}
-    .error{color:#c00;font-size:.9rem;min-height:1.2em;display:block}
-    #whatsapp .loading { margin-left:0.5rem; animation:spin 1s linear infinite; }
-    @keyframes spin { from {transform:rotate(0deg);} to {transform:rotate(360deg);} }
-    @media(max-width:480px){
-    .cards{flex-direction:column;align-items:center}
-    .card{width:100%;max-width:300px}
-  }
+:root{--color-primary:#00aeef;--color-primary-hover:#008bbf;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5;padding-bottom:4rem;}
+header,footer{background:#fff;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+header h1{margin:0;font-size:1.5rem;display:flex;align-items:center}
+.mobile-logo{height:6rem;margin-left:.5rem}
+.badge{background:#eee;padding:.2rem .5rem;border-radius:4px;font-size:.8rem;margin-left:.5rem}
+main{padding:1rem}
+.hero{text-align:center}
+.cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
+.card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);width:150px}
+.card h3{margin-top:0}
+.card button{margin-top:.5rem}
+.route-btn{display:inline-block;margin-top:1rem;color:var(--color-primary)}
+.form-card{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:400px;margin:0 auto}
+label{display:block;margin-top:.5rem}
+input,select,textarea,button{width:100%;padding:.75rem;margin-top:.25rem;border:1px solid #ccc;border-radius:4px;font-size:1rem}
+button{background:var(--color-primary);color:#fff;border:none;cursor:pointer}
+button:hover{background:var(--color-primary-hover)}
+.total-info{margin-top:1rem}
+.error{color:#c00;font-size:.9rem;min-height:1.2em;display:block}
+#whatsapp .loading{margin-left:.5rem;animation:spin 1s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@media(max-width:480px){
+  .cards{flex-direction:column;align-items:center}
+  .card{width:100%;max-width:300px}
+  .card button,#whatsapp,#pay{width:100%}
+}
+.sticky-order{position:fixed;bottom:0;left:0;right:0;background:var(--color-primary);color:#fff;font-size:1.25rem;padding:1rem;border:none;z-index:999;display:none;}
+@media(max-width:768px){.sticky-order{display:block;}}
+.mollie-badge{display:inline-block;background:#e6f7ff;color:#006b99;font-size:.8rem;padding:.25rem .5rem;border-radius:4px;margin-bottom:.5rem;}
+#payment-result{display:none;text-align:center;margin-top:1rem;}
+#payment-qr{max-width:200px;width:100%;height:auto;}
 </style>
 </head>
 <body>
 <header>
   <h1>IJskoud Amsterdam <img src="ChatGPT Image 26 aug 2025, 18_33_04.png" alt="BootIJS logo" class="mobile-logo"> <span class="badge">Test-run · Betaal bij afhalen</span></h1>
 </header>
+
 <main>
-  <pre id="out"></pre>
   <section class="hero">
     <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Café Hesp.</p>
     <div class="cards">
@@ -63,344 +66,139 @@
     </div>
     <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Route naar Café Hesp</a>
   </section>
+
   <section id="order">
     <form id="order-form" class="form-card">
+      <p class="mollie-badge">Veilig betalen via Mollie ✅</p>
       <h2>Bestellen</h2>
+
       <label for="product">Product</label>
       <select id="product" name="product">
         <option value="10">10 kg + gratis koelbox - €17,50</option>
         <option value="20">20 kg + gratis koelbox - €25,00</option>
       </select>
       <span class="error" aria-live="polite"></span>
+
       <label for="amount">Aantal</label>
       <input type="number" id="amount" name="amount" min="1" value="1" required>
       <span class="error" aria-live="polite"></span>
+
       <label for="date">Datum vaart</label>
       <input type="date" id="date" name="date" required>
       <span class="error" aria-live="polite"></span>
+
       <label for="start">Starttijd vaart</label>
-      <input type="time" id="start" name="start" required min="00:00">
+      <input type="time" id="start" name="start" required>
       <span class="error" aria-live="polite"></span>
-        <label for="name">Naam</label>
-        <input type="text" id="name" name="name" required>
-        <span class="error" aria-live="polite"></span>
-        <label for="country">Landcode</label>
-        <select id="country" name="country"></select>
-        <span class="error" aria-live="polite"></span>
-        <label for="phone">Telefoonnummer</label>
-        <input type="tel" id="phone" name="phone" required pattern="[0-9]{6,12}" placeholder="612345678">
-        <span class="error" aria-live="polite"></span>
-      <label for="note">Opmerking (optioneel)</label>
-      <textarea id="note" name="note"></textarea>
+
+      <label for="name">Naam</label>
+      <input type="text" id="name" name="name" required>
       <span class="error" aria-live="polite"></span>
+
+      <input type="hidden" id="country" value="+31">
+      <label for="phone">Telefoonnummer</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]{6,12}" placeholder="612345678">
+      <span class="error" aria-live="polite"></span>
+
       <div class="total-info">
         <p>Totaal: <span id="total" aria-live="polite">€0,00</span></p>
         <p>Ophaaltijd: <span id="pickup" aria-live="polite">--:--</span></p>
       </div>
-          <button type="button" id="whatsapp" disabled>
-            <span class="btn-text">Bestel via WhatsApp</span>
-            <span class="loading" hidden>❄️</span>
-          </button>
-        <button type="button" id="pay" disabled>Betaal (test) met iDEAL</button>
-      <div id="payment-result" style="display:none;text-align:center;margin-top:1rem;">
-        <p>Scan de QR-code of <a id="payment-link" target="_blank" rel="noopener">klik hier om te betalen</a>.</p>
-        <img id="payment-qr" alt="iDEAL QR-code" style="max-width:200px;" />
+
+      <button type="button" id="whatsapp" disabled>
+        <span class="btn-text">Bestel via WhatsApp</span>
+        <span class="loading" hidden>❄️</span>
+      </button>
+
+      <button type="button" id="pay" disabled>Betaal met iDEAL</button>
+
+      <div id="payment-result">
+        <p>Scan de QR-code of <a id="payment-link" target="_blank" rel="noopener">Betaal nu</a>.</p>
+        <img id="payment-qr" alt="iDEAL QR-code">
       </div>
     </form>
   </section>
 </main>
+
+<button class="sticky-order">Bestel nu</button>
+
 <footer>
   <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
 </footer>
+
 <script>
-const WHATSAPP_NUMBER = '31624978211'; // TODO: vervang door jouw nummer (zonder +)
-const prices = { '10': 17.50, '20': 25.00 };
-const formatter = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
-const productEl = document.getElementById('product');
-const amountEl = document.getElementById('amount');
-const dateEl = document.getElementById('date');
-const startEl = document.getElementById('start');
-const nameEl = document.getElementById('name');
-const countryEl = document.getElementById('country');
-const phoneEl = document.getElementById('phone');
-const noteEl = document.getElementById('note');
-const totalEl = document.getElementById('total');
-const pickupEl = document.getElementById('pickup');
-const appLink = document.getElementById('app-link');
-const whatsappBtn = document.getElementById('whatsapp');
-const payBtn = document.getElementById('pay');
-const orderForm = document.getElementById('order-form');
-const paymentResult = document.getElementById('payment-result');
-const paymentLink = document.getElementById('payment-link');
-const paymentQr = document.getElementById('payment-qr');
+const WHATSAPP_NUMBER='31624978211';
+const prices={'10':17.50,'20':25.00};
+const formatter=new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'});
+const productEl=document.getElementById('product');
+const amountEl=document.getElementById('amount');
+const dateEl=document.getElementById('date');
+const startEl=document.getElementById('start');
+const nameEl=document.getElementById('name');
+const phoneEl=document.getElementById('phone');
+const totalEl=document.getElementById('total');
+const pickupEl=document.getElementById('pickup');
+const appLink=document.getElementById('app-link');
+const whatsappBtn=document.getElementById('whatsapp');
+const payBtn=document.getElementById('pay');
+const paymentResult=document.getElementById('payment-result');
+const paymentLink=document.getElementById('payment-link');
+const paymentQr=document.getElementById('payment-qr');
 
-async function loadCountryCodes(){
-  try{
-    const res = await fetch('data/country-codes.json');
-    if(!res.ok) throw new Error('Failed to load country codes');
-    const codes = await res.json();
-    codes.forEach(({name,dial}) => {
-      const opt = document.createElement('option');
-      opt.value = dial;
-      opt.textContent = `${name} (${dial})`;
-      countryEl.appendChild(opt);
-    });
-  }catch(err){
-    ['+31','+32','+49','+44'].forEach(code => {
-      const opt = document.createElement('option');
-      opt.value = code;
-      opt.textContent = code;
-      countryEl.appendChild(opt);
-    });
-  }
-  countryEl.value = '+31';
-  updateButtonState();
+appLink.href=`https://wa.me/${WHATSAPP_NUMBER}`;
+document.getElementById('year').textContent=new Date().getFullYear();
+
+function setDefaults(){
+  const today=new Date();
+  today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
+  const todayStr=today.toISOString().slice(0,10);
+  dateEl.value=todayStr;
+  dateEl.min=todayStr;
+
+  const next=new Date();
+  next.setMinutes(next.getMinutes()+30);
+  next.setMinutes(next.getMinutes()-next.getMinutes()%30);
+  startEl.value=`${String(next.getHours()).padStart(2,'0')}:${String(next.getMinutes()).padStart(2,'0')}`;
 }
-
-appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
-document.getElementById('year').textContent = new Date().getFullYear();
-
-function setToday(){
-  const t = new Date();
-  t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
-  const today = t.toISOString().slice(0,10);
-  dateEl.value = today;
-  dateEl.min = today;
-}
-setToday();
+setDefaults();
 
 function updateInfo(){
-  const prod = productEl.value;
-  const raw = amountEl.value;
-  let price = 0;
-
-  if(raw !== ''){
-    let amt = parseInt(raw,10);
-    if(isNaN(amt) || amt < 1){
-      amt = 1;
-      amountEl.value = 1;
-    }
-    price = prices[prod] * amt;
-  }
-  totalEl.textContent = formatter.format(price);
+  const prod=productEl.value;
+  const amt=parseInt(amountEl.value,10)||1;
+  amountEl.value=amt;
+  totalEl.textContent=formatter.format(prices[prod]*amt);
   if(startEl.value){
-    const d = new Date(dateEl.value + 'T' + startEl.value);
-    d.setMinutes(d.getMinutes() - 10);
-    const ph = String(d.getHours()).padStart(2,'0');
-    const pm = String(d.getMinutes()).padStart(2,'0');
-    const pd = d.toISOString().slice(0,10);
-    if(pd !== dateEl.value){
-      pickupEl.textContent = `${pd} ${ph}:${pm}`;
-    }else{
-      pickupEl.textContent = `${ph}:${pm}`;
-    }
-  }else{
-    pickupEl.textContent = '--:--';
-  }
+    const d=new Date(dateEl.value+'T'+startEl.value);
+    d.setMinutes(d.getMinutes()-10);
+    const ph=String(d.getHours()).padStart(2,'0');
+    const pm=String(d.getMinutes()).padStart(2,'0');
+    const pd=d.toISOString().slice(0,10);
+    pickupEl.textContent=pd!==dateEl.value?`${pd} ${ph}:${pm}`:`${ph}:${pm}`;
+  }else{pickupEl.textContent='--:--';}
 }
 
-function setError(el,msg){
-  el.nextElementSibling.textContent = msg;
-}
+function setError(el,msg){el.nextElementSibling.textContent=msg;}
+function validateAmount(show=true){const val=parseInt(amountEl.value,10);if(isNaN(val)||val<1){if(show)setError(amountEl,'Minimaal 1.');return false;}if(show)setError(amountEl,'');return true;}
+function validateDate(show=true){if(!dateEl.value){if(show)setError(dateEl,'Datum is verplicht.');return false;}if(dateEl.min&&dateEl.value<dateEl.min){if(show)setError(dateEl,'Datum kan niet in het verleden liggen.');return false;}if(show)setError(dateEl,'');return true;}
+function validateStart(show=true){if(!startEl.value){if(show)setError(startEl,'Starttijd is verplicht.');return false;}if(dateEl.value){const selected=new Date(dateEl.value+'T'+startEl.value);if(selected<new Date()){if(show)setError(startEl,'Starttijd kan niet in het verleden liggen.');return false;}}if(show)setError(startEl,'');return true;}
+function validateName(show=true){if(!nameEl.value.trim()){if(show)setError(nameEl,'Vul aub een naam in.');return false;}if(show)setError(nameEl,'');return true;}
+function validatePhone(show=true){if(!/^[0-9]{6,12}$/.test(phoneEl.value.trim())){if(show)setError(phoneEl,'Vul een geldig telefoonnummer in, bijv. 612345678.');return false;}if(show)setError(phoneEl,'');return true;}
+function validateForm(show=true){return[()=>validateAmount(show),()=>validateDate(show),()=>validateStart(show),()=>validateName(show),()=>validatePhone(show)].every(v=>v());}
+function updateButtonState(){const disabled=!validateForm(false);whatsappBtn.disabled=disabled;payBtn.disabled=disabled;validateStart();validateName();validatePhone();}
+['change','input'].forEach(ev=>{productEl.addEventListener(ev,()=>{updateInfo();updateButtonState();});amountEl.addEventListener(ev,()=>{updateInfo();validateAmount();updateButtonState();});dateEl.addEventListener(ev,()=>{updateInfo();validateDate();validateStart();updateButtonState();});startEl.addEventListener(ev,()=>{updateInfo();validateStart();updateButtonState();});nameEl.addEventListener(ev,()=>{validateName();updateButtonState();});phoneEl.addEventListener(ev,()=>{validatePhone();updateButtonState();});});
 
-function validateAmount(show=true){
-  const val = parseInt(amountEl.value,10);
-  if(isNaN(val) || val < 1){
-    if(show) setError(amountEl,'Minimaal 1.');
-    return false;
-  }
-  if(show) setError(amountEl,'');
-  return true;
-}
+function buildMessage(){return[`Naam: ${nameEl.value}`,`Telefoon: +31${phoneEl.value}`,`Datum vaart: ${dateEl.value}`,`Starttijd: ${startEl.value}`,`Ophaaltijd: ${pickupEl.textContent}`,`Product: ${productEl.value} kg + gratis koelbox`,`Aantal: ${amountEl.value}`,`Totaal: ${totalEl.textContent}`,'Locatie: Café Hesp (om de hoek bij de steiger)','Betaal bij afhalen (contant of Tikkie).'].join('\n');}
 
-function validateDate(show=true){
-  if(!dateEl.value){
-    if(show) setError(dateEl,'Datum is verplicht.');
-    return false;
-  }
-  if(dateEl.min && dateEl.value < dateEl.min){
-    if(show) setError(dateEl,'Datum kan niet in het verleden liggen.');
-    return false;
-  }
-  if(show) setError(dateEl,'');
-  return true;
-}
+whatsappBtn.addEventListener('click',()=>{const loader=whatsappBtn.querySelector('.loading');loader.hidden=false;whatsappBtn.disabled=true;if(!validateForm()){loader.hidden=true;whatsappBtn.disabled=false;const firstErr=document.querySelector('.error:not(:empty)');if(firstErr)firstErr.previousElementSibling.focus();return;}const msg=buildMessage();window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');document.getElementById('order-form').reset();setDefaults();updateInfo();updateButtonState();loader.hidden=true;whatsappBtn.disabled=false;});
 
-function validateStart(show=true){
-  if(!startEl.value){
-    if(show) setError(startEl,'Starttijd is verplicht.');
-    return false;
-  }
-  if(dateEl.value){
-    const selected = new Date(dateEl.value + 'T' + startEl.value);
-    const now = new Date();
-    if(selected < now){
-      if(show) setError(startEl,'Starttijd kan niet in het verleden liggen.');
-      return false;
-    }
-  }
-  if(show) setError(startEl,'');
-  return true;
-}
+payBtn.addEventListener('click',async()=>{if(!validateForm()){const firstErr=document.querySelector('.error:not(:empty)');if(firstErr)firstErr.previousElementSibling.focus();return;}const amount=(prices[productEl.value]*parseInt(amountEl.value,10)).toFixed(2);try{const res=await fetch('/.netlify/functions/create-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount,description:`IJskoud ${productEl.value}kg`,phone:'+31'+phoneEl.value})});const data=await res.json();if(res.ok&&data.checkoutUrl){paymentLink.href=data.checkoutUrl;paymentResult.style.display='block';if(data.qrCode){paymentQr.src=data.qrCode;paymentQr.hidden=false;}else{paymentQr.hidden=true;}}else{alert(data.error||'Betaling kon niet worden gestart.');}}catch(err){alert('Fout bij starten betaling.');}});
 
-function validateName(show=true){
-  if(!nameEl.value.trim()){
-    if(show) setError(nameEl,'Vul aub een naam in.');
-    return false;
-  }
-  if(show) setError(nameEl,'');
-  return true;
-}
+document.querySelectorAll('.quick').forEach(btn=>{btn.addEventListener('click',()=>{productEl.value=btn.dataset.kg;const n=new Date();n.setMinutes(n.getMinutes()+45);const today=new Date();const todayStr=today.toISOString().slice(0,10);const newDay=n.toISOString().slice(0,10);dateEl.value=newDay!==todayStr?newDay:todayStr;startEl.value=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;updateInfo();validateStart();updateButtonState();document.getElementById('order-form').scrollIntoView({behavior:'smooth'});});});
 
-function validatePhone(show=true){
-  const num = phoneEl.value.trim();
-  if(!/^[0-9]{6,12}$/.test(num)){
-    if(show) setError(phoneEl,'Vul een geldig telefoonnummer in zonder landcode, bijv. 612345678.');
-    return false;
-  }
-  if(show) setError(phoneEl,'');
-  return true;
-}
+document.querySelector('.sticky-order').addEventListener('click',()=>{document.getElementById('order').scrollIntoView({behavior:'smooth'});});
 
-function validateForm(show=true){
-  const validators = [
-    () => validateAmount(show),
-    () => validateDate(show),
-    () => validateStart(show),
-    () => validateName(show),
-    () => validatePhone(show)
-  ];
-  return validators.every(v => v());
-}
-
-function updateButtonState(){
-  const disabled = !validateForm(false);
-  whatsappBtn.disabled = disabled;
-  payBtn.disabled = disabled;
-  // Toon foutmeldingen wanneer verplichte velden ontbreken
-  validateStart();
-  validateName();
-  validatePhone();
-}
-
-['change','input'].forEach(ev=>{
-  productEl.addEventListener(ev, () => { updateInfo(); updateButtonState(); });
-  amountEl.addEventListener(ev, () => { updateInfo(); validateAmount(); updateButtonState(); });
-  dateEl.addEventListener(ev, () => { updateInfo(); validateDate(); validateStart(); updateButtonState(); });
-  startEl.addEventListener(ev, () => { updateInfo(); validateStart(); updateButtonState(); });
-  nameEl.addEventListener(ev, () => { validateName(); updateButtonState(); });
-  countryEl.addEventListener(ev, () => { validatePhone(); updateButtonState(); });
-  phoneEl.addEventListener(ev, () => { validatePhone(); updateButtonState(); });
-});
-
-function buildMessage(){
-  const lines = [
-    `Naam: ${nameEl.value}`,
-    `Telefoon: ${countryEl.value}${phoneEl.value}`,
-    `Datum vaart: ${dateEl.value}`,
-    `Starttijd: ${startEl.value}`,
-    `Ophaaltijd: ${pickupEl.textContent}`,
-    `Product: ${productEl.value} kg + gratis koelbox`,
-    `Aantal: ${amountEl.value}`,
-    `Totaal: ${totalEl.textContent}`,
-    'Locatie: Café Hesp (om de hoek bij de steiger)'
-  ];
-  if(noteEl.value.trim()) lines.push(`Opmerking: ${noteEl.value.trim()}`);
-  lines.push('Betaal bij afhalen (contant of Tikkie).');
-  return lines.join('\n');
-}
-
-whatsappBtn.addEventListener('click', () => {
-  const loader = whatsappBtn.querySelector('.loading');
-  loader.hidden = false;
-  whatsappBtn.disabled = true;
-  if(!validateForm()){
-    loader.hidden = true;
-    whatsappBtn.disabled = false;
-    const firstErr = document.querySelector('.error:not(:empty)');
-    if(firstErr) firstErr.previousElementSibling.focus();
-    return;
-  }
-  const msg = buildMessage();
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-  orderForm.reset();
-  setToday();
-  updateInfo();
-  updateButtonState();
-  loader.hidden = true;
-  whatsappBtn.disabled = false;
-});
-
-payBtn.addEventListener('click', async () => {
-  if(!validateForm()){
-    const firstErr = document.querySelector('.error:not(:empty)');
-    if(firstErr) firstErr.previousElementSibling.focus();
-    return;
-  }
-  const amount = (prices[productEl.value] * parseInt(amountEl.value,10)).toFixed(2);
-    try{
-      const res = await fetch('/.netlify/functions/create-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: countryEl.value + phoneEl.value })
-      });
-      let data = {};
-      try{
-        data = await res.json();
-      }catch{}
-      if(!res.ok){
-        alert(data.error || 'Betaling kon niet worden gestart.');
-        return;
-      }
-      if(data.qrCode && data.checkoutUrl){
-        paymentLink.href = data.checkoutUrl;
-        paymentQr.src = data.qrCode;
-        paymentResult.style.display = 'block';
-      }else if(data.checkoutUrl){
-        window.location.href = data.checkoutUrl;
-      }else{
-        alert('Betaling kon niet worden gestart.');
-      }
-    }catch(err){
-      alert('Fout bij starten betaling.');
-    }
-  });
-
-document.querySelectorAll('.quick').forEach(btn => {
-  btn.addEventListener('click', () => {
-    productEl.value = btn.dataset.kg;
-    const n = new Date();
-    const today = n.toISOString().slice(0,10);
-    n.setMinutes(n.getMinutes() + 45);
-    const newDay = n.toISOString().slice(0,10);
-    if(newDay !== today) dateEl.value = newDay;
-    startEl.value = `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
-    updateInfo();
-    validateStart();
-    updateButtonState();
-    document.getElementById('order-form').scrollIntoView({behavior:'smooth'});
-  });
-});
-
-loadCountryCodes();
 updateInfo();
 updateButtonState();
-</script>
-<script>
-  async function bestel(amount, description) {
-    const r = await fetch("/.netlify/functions/create-payment", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ amount, description })
-    });
-    const data = await r.json();
-    document.getElementById("out").textContent = JSON.stringify(data,null,2);
-
-    if (data.checkoutUrl) {
-      window.location = data.checkoutUrl; // Stuur direct naar Mollie
-    }
-  }
 </script>
 </body>
 </html>
