@@ -52,9 +52,15 @@
     margin:2rem auto;
     max-width:600px;
     padding:0 1rem;
+    min-height:160px;
   }
   .review-card {
-    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    opacity:0;
+    transition:opacity 1.5s ease-in-out;
     background:#fff;
     padding:1rem 1.5rem;
     border-radius:8px;
@@ -63,7 +69,8 @@
     text-align:center;
   }
   .review-card.active {
-    display:block;
+    opacity:1;
+    z-index:1;
   }
   .footer-badges {
     display:flex;
@@ -453,7 +460,7 @@ setInterval(() => {
   reviewCards[currentReview].classList.remove('active');
   currentReview = (currentReview + 1) % reviewCards.length;
   reviewCards[currentReview].classList.add('active');
-}, 4000);
+}, 3500);
 
 loadCountryCodes();
 updateInfo();
