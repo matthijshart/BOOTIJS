@@ -9,12 +9,17 @@
 <meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bootijs.nl/">
-<meta property="og:image" content="https://bootijs.nl/images/logo.png">
+<meta property="og:image" content="https://bootijs.nl/images/bootijs_kruizen_iceblue.png">
 <meta property="og:image:alt" content="BootIJS logo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IJskoud Amsterdam">
+
 <meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta name="twitter:image" content="https://bootijs.nl/images/logo.png">
+
+<meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<meta name="twitter:image" content="https://bootijs.nl/images/bootijs_kruizen_iceblue.png">
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
 <style>
   :root{
@@ -47,20 +52,22 @@
     .card{width:100%;max-width:300px}
   }
   .review {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1.5rem;
+    position:relative;
     margin:2rem auto;
     max-width:600px;
     padding:0 1rem;
   }
   .review-card {
+    display:none;
     background:#fff;
     padding:1rem 1.5rem;
     border-radius:8px;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
     font-style:italic;
+    text-align:center;
+  }
+  .review-card.active {
+    display:block;
   }
 </style>
 </head>
@@ -87,7 +94,7 @@
     <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener">Route naar Schollenbrugstraat 10, 1091 EZ Amsterdam</a>
   </section>
   <section class="review">
-    <div class="review-card">
+    <div class="review-card active">
       <div class="stars">★★★★★</div>
       <p>“Super makkelijk en ga het zeker volgende keer weer doen voor ijskoude drankjes aan boord.”</p>
       <span class="author">– Lisa</span>
@@ -97,6 +104,12 @@
       <div class="stars">★★★★★</div>
       <p>“Binnen 5 minuten geregeld en onze drankjes bleven de hele tocht ijskoud. Topservice!”</p>
       <span class="author">– Tom</span>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>“Geweldig om zo snel gekoeld te zijn; aanrader!”</p>
+      <span class="author">– Sam</span>
     </div>
   </section>
   <section id="order">
@@ -419,6 +432,15 @@ document.querySelectorAll('.quick').forEach(btn => {
   });
 });
 
+
+
+const reviewCards = document.querySelectorAll('.review-card');
+let currentReview = 0;
+setInterval(() => {
+  reviewCards[currentReview].classList.remove('active');
+  currentReview = (currentReview + 1) % reviewCards.length;
+  reviewCards[currentReview].classList.add('active');
+}, 4000);
 
 loadCountryCodes();
 updateInfo();
