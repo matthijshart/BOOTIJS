@@ -4,17 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IJskoud Amsterdam</title>
-<meta name="description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<meta name="description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta property="og:title" content="IJskoud Amsterdam">
-<meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bootijs.nl/">
-<meta property="og:image" content="https://bootijs.nl/images/logo.png">
+<meta property="og:image" content="https://bootijs.nl/images/bootijs_kruizen_iceblue.png">
 <meta property="og:image:alt" content="BootIJS logo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IJskoud Amsterdam">
-<meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+
+<meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta name="twitter:image" content="https://bootijs.nl/images/logo.png">
+
+<meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór start op bij Café Hesp.">
+<meta name="twitter:image" content="https://bootijs.nl/images/bootijs_kruizen_iceblue.png">
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
 <style>
   :root{
@@ -82,7 +87,7 @@
 <main>
   <pre id="out"></pre>
   <section class="hero">
-    <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Café Hesp.</p>
+    <p>Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).</p>
     <div class="cards">
       <div class="card">
         <h3>10 kg + gratis koelbox</h3>
@@ -95,7 +100,7 @@
         <button type="button" class="quick" data-kg="20">Snel bestellen</button>
       </div>
     </div>
-    <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Route naar Café Hesp</a>
+    <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener">Route naar Schollenbrugstraat 10, 1091 EZ Amsterdam</a>
   </section>
   <section class="review">
     <div class="review-card active">
@@ -163,11 +168,15 @@
   </section>
 </main>
 <footer>
+
   <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Caf%C3%A9%20Hesp%2C%20Amsteldijk%20130%2C%20Amsterdam" target="_blank" rel="noopener">Café Hesp</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
   <div class="footer-badges">
     <img src="images/ideal-card.png" alt="iDEAL logo">
     <img src="images/payments-badge.png" alt="Payments by Mollie">
   </div>
+
+  <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener">Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp)</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
+
 </footer>
 <script>
 const WHATSAPP_NUMBER = '31624978211'; // TODO: vervang door jouw nummer (zonder +)
@@ -360,7 +369,7 @@ function buildMessage(){
     `Product: ${productEl.value} kg + gratis koelbox`,
     `Aantal: ${amountEl.value}`,
     `Totaal: ${totalEl.textContent}`,
-    'Locatie: Café Hesp (om de hoek bij de steiger)'
+    'Locatie: Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp)'
   ];
   if(noteEl.value.trim()) lines.push(`Opmerking: ${noteEl.value.trim()}`);
   lines.push('Betaal bij afhalen (contant of Tikkie).');
