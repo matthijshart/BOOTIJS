@@ -3,14 +3,14 @@ import twilio from 'twilio';
 import crypto from 'crypto';
 
 const {
-  MOLLIE_API_KEY,
+  MOLLIE_API,
   TWILIO_ACCOUNT_SID,
   TWILIO_AUTH_TOKEN,
   TWILIO_WHATSAPP_FROM,
   MOLLIE_SIGNING_KEY
 } = process.env;
 
-const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
+const mollie = mollieClient({ apiKey: MOLLIE_API });
 
 export async function handler(event) {
   try {

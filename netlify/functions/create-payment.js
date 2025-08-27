@@ -1,11 +1,11 @@
 import mollieClient from '@mollie/api-client';
 
 const {
-  MOLLIE_API_KEY,
+  MOLLIE_API,
   URL = 'http://localhost:8888',
   WEBHOOK_URL
 } = process.env;
-const mollie = mollieClient({ apiKey: MOLLIE_API_KEY });
+const mollie = mollieClient({ apiKey: MOLLIE_API });
 
 function jsonError(statusCode, message) {
   return {
@@ -17,8 +17,8 @@ function jsonError(statusCode, message) {
 
 export async function handler(event) {
   try {
-    if (!MOLLIE_API_KEY) {
-      return jsonError(500, 'MOLLIE_API_KEY not configured');
+    if (!MOLLIE_API) {
+      return jsonError(500, 'MOLLIE_API not configured');
     }
 
     if (event.httpMethod !== 'POST') {
