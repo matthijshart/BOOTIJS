@@ -82,12 +82,7 @@
         <input type="text" id="name" name="name" required>
         <span class="error" aria-live="polite"></span>
         <label for="country">Landcode</label>
-        <select id="country" name="country">
-          <option value="+31">+31</option>
-          <option value="+32">+32</option>
-          <option value="+49">+49</option>
-          <option value="+44">+44</option>
-        </select>
+        <select id="country" name="country"></select>
         <span class="error" aria-live="polite"></span>
         <label for="phone">Telefoonnummer</label>
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{6,12}" placeholder="612345678">
@@ -132,6 +127,37 @@ const orderForm = document.getElementById('order-form');
 const paymentResult = document.getElementById('payment-result');
 const paymentLink = document.getElementById('payment-link');
 const paymentQr = document.getElementById('payment-qr');
+
+async function loadCountryCodes(){
+  try{
+    const res = await fetch('https://restcountries.com/v3.1/all');
+    const data = await res.json();
+    const codes = [];
+    for(const c of data){
+      if(c.idd && c.idd.root){
+        const root = c.idd.root;
+        const suffixes = c.idd.suffixes && c.idd.suffixes.length ? c.idd.suffixes : [''];
+        suffixes.forEach(s => codes.push({ name: c.name.common, dial: root + s }));
+      }
+    }
+    codes.sort((a,b) => a.name.localeCompare(b.name));
+    codes.forEach(({name,dial}) => {
+      const opt = document.createElement('option');
+      opt.value = dial;
+      opt.textContent = `${name} (${dial})`;
+      countryEl.appendChild(opt);
+    });
+  }catch(err){
+    ['+31','+32','+49','+44'].forEach(code => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = code;
+      countryEl.appendChild(opt);
+    });
+  }
+  countryEl.value = '+31';
+  updateButtonState();
+}
 
 appLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -352,6 +378,7 @@ document.querySelectorAll('.quick').forEach(btn => {
   });
 });
 
+loadCountryCodes();
 updateInfo();
 updateButtonState();
 </script>
