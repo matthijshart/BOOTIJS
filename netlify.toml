@@ -4,6 +4,7 @@
 [build.environment]
   # Signing key voor Mollie webhook signature verificatie
   MOLLIE_SIGNING_KEY = ""
+  MOLLIE_API = ""
 
 [functions]
   node_bundler = "esbuild"
