@@ -81,7 +81,7 @@ exports.handler = async (event) => {
         await twilioClient.messages.create({
           from: `whatsapp:${TWILIO_WHATSAPP_FROM}`,
           to: `whatsapp:${phone}`,
-          body: `✅ Betaling ontvangen!\n\nOmschrijving: ${description}\nBedrag: €${amount}${order}\n\n❄️ IJskoud Amsterdam`
+          body: `✅ Betaling ontvangen!\n\nOmschrijving: ${description}\nBedrag: €${amount}${order}\n\n❄️ LekkerKoel Amsterdam`
         });
       } catch (err) {
         return { statusCode: 502, body: `Twilio API error: ${err.message}` };
