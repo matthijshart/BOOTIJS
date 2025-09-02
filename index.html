@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IJskoud Amsterdam</title>
+<title>LekkerKoel Amsterdam</title>
 <meta name="description" content="Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
-<meta property="og:title" content="IJskoud Amsterdam">
+<meta property="og:title" content="LekkerKoel Amsterdam">
 <meta property="og:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bootijs.nl/">
@@ -15,7 +15,7 @@
 <meta property="og:image:width" content="510">
 <meta property="og:image:height" content="340">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IJskoud Amsterdam">
+<meta name="twitter:title" content="LekkerKoel Amsterdam">
 <meta name="twitter:description" content="Bestel ijsblokjes en haal ze 10 minuten vóór je vaart op bij Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp).">
 <meta name="twitter:image" content="https://bootijs.nl/images/bootijs_kruizen_iceblue.png">
 
@@ -89,7 +89,7 @@
 </head>
 <body>
 <header>
-  <h1>IJskoud Amsterdam <img src="images/logo.png" alt="BootIJS logo" class="mobile-logo"> <span class="badge">Test-run</span></h1>
+  <h1>LekkerKoel Amsterdam <img src="images/logo.png" alt="BootIJS logo" class="mobile-logo"> <span class="badge">Test-run</span></h1>
 </header>
 <main>
   <pre id="out"></pre>
@@ -186,7 +186,7 @@
     <img src="images/payments-badge.png" alt="Payments by Mollie">
   </div>
 
-  <p>© <span id="year"></span> IJskoud Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener" class="location-link">Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp)</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
+  <p>© <span id="year"></span> LekkerKoel Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener" class="location-link">Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp)</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
 
 </footer>
 <script>
@@ -420,7 +420,7 @@ payBtn.addEventListener('click', async () => {
       const res = await fetch('/.netlify/functions/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount, description: `IJskoud ${productEl.value}kg`, phone: countryEl.value + phoneEl.value })
+        body: JSON.stringify({ amount, description: `LekkerKoel ${productEl.value}kg`, phone: countryEl.value + phoneEl.value })
       });
       let data = {};
       try{
