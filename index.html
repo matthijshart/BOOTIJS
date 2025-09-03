@@ -26,7 +26,8 @@
     --color-primary-hover:#008bbf;
   }
   .location-link{color:var(--color-primary);}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5;-webkit-overflow-scrolling:touch}
   header{
     position:relative;
     height:60vh;
@@ -132,6 +133,49 @@
   .footer-badges img {
     height:40px;
   }
+  
+  /* Smooth scroll animations */
+  .fade-in-up {
+    opacity:0;
+    transform:translateY(30px);
+    transition:opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .fade-in-up.visible {
+    opacity:1;
+    transform:translateY(0);
+  }
+  
+  .fade-in {
+    opacity:0;
+    transition:opacity 0.8s ease-out;
+  }
+  .fade-in.visible {
+    opacity:1;
+  }
+  
+  .slide-in-left {
+    opacity:0;
+    transform:translateX(-30px);
+    transition:opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .slide-in-left.visible {
+    opacity:1;
+    transform:translateX(0);
+  }
+  
+  .slide-in-right {
+    opacity:0;
+    transform:translateX(30px);
+    transition:opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .slide-in-right.visible {
+    opacity:1;
+    transform:translateX(0);
+  }
+  
+  /* Staggered animation delays for cards */
+  .card:nth-child(1) { transition-delay:0.1s; }
+  .card:nth-child(2) { transition-delay:0.2s; }
 </style>
 </head>
 <body>
@@ -149,13 +193,13 @@
 
    
     <div class="cards">
-      <div class="card">
+      <div class="card fade-in-up">
         <h3>10 kg + gratis koelbox</h3>
         <img src="boxje.png" alt="Koelbox" class="coolbox-img">
         <p>€17,50</p>
         <button type="button" class="quick" data-kg="10">Snel bestellen</button>
       </div>
-      <div class="card">
+      <div class="card fade-in-up">
         <h3>20 kg + gratis koelbox</h3>
         <img src="boxje.png" alt="Koelbox" class="coolbox-img">
         <p>€25,00</p>
@@ -163,7 +207,7 @@
       </div>
     </div>
   </section>
-  <section class="review">
+  <section class="review fade-in">
     <div class="review-card active">
       <div class="stars">★★★★★</div>
       <p>“Super makkelijk en ga het zeker volgende keer weer doen voor ijskoude drankjes aan boord.”</p>
@@ -182,7 +226,7 @@
       <span class="author">– Sam</span>
     </div>
   </section>
-  <section id="order">
+  <section id="order" class="fade-in-up">
     <form id="order-form" class="form-card">
       <h2>Bestellen</h2>
       <label for="product">Product</label>
@@ -238,6 +282,35 @@
   <p>© <span id="year"></span> LekkerKoel Amsterdam · <a href="https://www.google.com/maps/dir/?api=1&destination=Schollenbrugstraat%2010%2C%201091%20EZ%20Amsterdam" target="_blank" rel="noopener" class="location-link">Schollenbrugstraat 10, 1091 EZ Amsterdam (om de hoek bij Café Hesp)</a> · <a id="app-link" href="#">Vragen? App ons.</a></p>
 
 </footer>
+<script>
+// Smooth scroll animations with Intersection Observer
+function initScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // Observe all elements with animation classes
+  document.querySelectorAll('.fade-in-up, .fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Initialize scroll animations when DOM is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initScrollAnimations);
+} else {
+  initScrollAnimations();
+}
+</script>
 <script>
 const WHATSAPP_NUMBER = '31624978211'; // TODO: vervang door jouw nummer (zonder +)
 const prices = { '10': 17.50, '20': 25.00 };
