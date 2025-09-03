@@ -25,6 +25,56 @@
     --color-primary:#00aeef;
     --color-primary-hover:#008bbf;
   }
+  
+  /* Smooth scrolling for better user experience */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Animation keyframes for scroll-triggered effects */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Base state for animated elements */
+  .scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    .scroll-animate {
+      transform: none;
+      transition: opacity 0.3s ease-out;
+    }
+  }
+  
   .location-link{color:var(--color-primary);}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;background:#f9f9f9;color:#222;line-height:1.5}
   header{
@@ -149,13 +199,13 @@
 
    
     <div class="cards">
-      <div class="card">
+      <div class="card scroll-animate">
         <h3>10 kg + gratis koelbox</h3>
         <img src="boxje.png" alt="Koelbox" class="coolbox-img">
         <p>€17,50</p>
         <button type="button" class="quick" data-kg="10">Snel bestellen</button>
       </div>
-      <div class="card">
+      <div class="card scroll-animate">
         <h3>20 kg + gratis koelbox</h3>
         <img src="boxje.png" alt="Koelbox" class="coolbox-img">
         <p>€25,00</p>
@@ -163,7 +213,7 @@
       </div>
     </div>
   </section>
-  <section class="review">
+  <section class="review scroll-animate">
     <div class="review-card active">
       <div class="stars">★★★★★</div>
       <p>“Super makkelijk en ga het zeker volgende keer weer doen voor ijskoude drankjes aan boord.”</p>
@@ -182,7 +232,7 @@
       <span class="author">– Sam</span>
     </div>
   </section>
-  <section id="order">
+  <section id="order" class="scroll-animate">
     <form id="order-form" class="form-card">
       <h2>Bestellen</h2>
       <label for="product">Product</label>
@@ -522,6 +572,33 @@ setInterval(() => {
 loadCountryCodes();
 updateInfo();
 updateButtonState();
+
+// Intersection Observer for scroll-triggered animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Unobserve the element after animation to improve performance
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Observe all elements with scroll-animate class
+document.querySelectorAll('.scroll-animate').forEach(el => {
+  observer.observe(el);
+});
+
+// Add staggered animation for cards
+const cards = document.querySelectorAll('.card.scroll-animate');
+cards.forEach((card, index) => {
+  card.style.transitionDelay = `${index * 0.1}s`;
+});
 </script>
 <script>
   async function bestel(amount, description) {
